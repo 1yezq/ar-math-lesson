@@ -1,36 +1,43 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'), // 改为 'dist'
+    publicPath: '/'
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-        },
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.mp4$/,
+        use: 'file-loader?name=videos/[name].[ext]',
       },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
-      },
-    ],
+    ]
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: './index.html'
+    })
+  ],
   devServer: {
-    contentBase: './dist',
-    port: 8080,
-  },
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 8080
+  }
 };

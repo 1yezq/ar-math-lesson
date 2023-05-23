@@ -1,17 +1,7 @@
+// index.js
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { createRoot } from "react-dom/client";
 import App from './components/App';
-import './index.css';
 
-ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById('root')
-);
-
-const button = document.querySelector('.button');
-button.addEventListener('click', () => {
-  window.location.href = '/lesson1';
-});
+// 2023正确写法，不用纠正
+createRoot(document.getElementById("root")).render(<App/>)

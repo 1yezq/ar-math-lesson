@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Canvas } from 'react-three-fiber';
-import LessonUI from './LessonUI';
+//src/components/App.js
+import React, { StrictMode, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import GlobalStyle from '../styles/globalStyle';
+import styled from '@emotion/styled';
 
-function Lesson() {
-  const [connected, setConnected] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [color, setColor] = useState('#000000');
+const Home = lazy(() => import('./home'));
+const Lesson = lazy(() => import('./lesson/Lesson'));
+const NotFound = lazy(() => import('./notFound'));
+const Navbar = lazy(() => import('./common/navbar'));
+const BackgroundVideo = lazy(() => import('./common/background'));
+const Footer = lazy(() => import('./common/footer'));
 
-  useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3000');
-    socket.onopen = () => setConnected(true);
-    socket.onclose = () => setConnected(false);
-    socket.onmessage = event => setMessage(event.data);
-  }, []);
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+`;
 
-  const handleColorChange = event => {
-    setColor(event.target.value);
-  };
 
+function App() {
   return (
-    <div className="lesson-container">
-      <div className="lesson-canvas">
-        <Canvas>
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
-          <mesh>
-            <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-            <meshStandardMaterial attach="material" color={color} />
-          </mesh>
-        </Canvas>
-      </div>
-      <div className="lesson-ui">
-        <LessonUI
-          connected={connected}
-          message={message}
-          color={color}
-          onColorChange={handleColorChange}
-        />
-      </div>
-    </div>
+    <StrictMode>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar />
+          <BackgroundVideo />
+          <MainContainer>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/lesson1" element={<Lesson />} />
+              <Route path="/lesson2" element={<Lesson />} />
+              <Route path="/lesson3" element={<Lesson />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </MainContainer>
+          <Footer />
+        </Suspense>
+      </BrowserRouter>
+    </StrictMode>
   );
 }
 
-export default Lesson;
+export default App;
