@@ -1,0 +1,38 @@
+<!DOCTYPE html><!-- 入口文件  -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AR数学课</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background">
+    <video autoplay muted loop id="background-video">
+      <source src="background.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/lesson1">第一课</a></li>
+      <li><a href="/lesson2">第二课</a></li>
+      <li><a href="/lesson3">第三课</a></li>
+    </ul>
+  </nav>
+  <div id="root">
+    <div class="title">
+      <h1>欢迎来到AR数学课</h1>
+      <p>使用增强现实技术学习数学知识</p>
+    </div>
+    <button class="button">开始学习</button>
+  </div>
+  <footer>
+    <p>&copy; 2023 AR数学课</p>
+  </footer>
+  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+  <script src="./bundle.js"></script>
+</body>
+</html>
